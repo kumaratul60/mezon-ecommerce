@@ -16,6 +16,7 @@ function Checkout() {
   const [session] = useSession();
 
   const createCheckoutSession = async () => {
+    // this function load the stripe key asynchronously
     const stripe = await stripePromise;
 
     // Call the backend to create a checkout session...

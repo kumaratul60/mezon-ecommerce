@@ -19,9 +19,10 @@ function Orders({ orders }) {
         </h1>
 
         {session ? (
-          <h2>{orders.length} Orders </h2>
+           <h2>{orders.length} Orders </h2>
+          // <h2> x Orders </h2>
         ) : (
-          <h2>Please signin to see your orders </h2>
+          <h2>Please sign in to see your orders </h2>
         )}
 
         <div className="mt-5 space-y-4">
@@ -61,6 +62,8 @@ export async function getServerSideProps(context) {
   //   getSession in backend/server-render
   //   context -> it contains request, response, etc...
 
+  // await getSession => await because promise to get access
+
   const session = await getSession(context);
 
   if (!session) {
@@ -84,12 +87,17 @@ export async function getServerSideProps(context) {
       amount: order.data().amount,
       amountShipping: order.data().amount_shipping,
       images: order.data().images,
-      timestamp: moment(order.data().timestamp.toDate()).unix(), // unix -> convert the number to actual date istead of this by doing directly you can loose the actule date format, so to prevent form this use Unix to translate this.
+      timestamp: moment(order.data().timestamp.toDate()).unix(),
+      // unix -> convert the number to actual date istead of this by doing directly you can loose the actule date format, so to prevent form this use Unix to translate this.
 
       items: (
-        await stripe.checkout.sessions.listLineItems(order.id, {
-          limit: 100,
-        })
+        await stripe.checkout.sessions.listLineItems(
+          order.id,
+        
+          {
+            limit: 100,
+          }
+        )
       ).data,
     }))
   );

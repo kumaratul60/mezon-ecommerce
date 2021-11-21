@@ -23,6 +23,7 @@ export default function Home({ products }) {
 }
 
 export async function getServerSideProps(context) {
+  
   const session = await getSession(context);
 
   const products = await fetch("https://fakestoreapi.com/products")
@@ -44,9 +45,11 @@ export async function getServerSideProps(context) {
   };
 }
 
-// getServerSideProps() -> that function makes a virtual a server that server calculate the page and render to browser. That server is also knows serverSideRendering. The page is pre-rendered at run time
+// getServerSideProps() -> that function makes a virtual a server, that server calculate the page and render to browser. That server is also knows serverSideRendering(SSR). The page is pre-rendered at run time
 
-// getServerSideProps() -> that function is also define the that is no longer static page, it needs the middle server step. The page is pre-rendered at build time
+// getStaticProps() -> that function is also define the that is no longer static page, it needs the middle server step. The page is pre-rendered at build time.
+
+//  getStaticPaths() -> this fucntion generates a list of pages that will be pre-rendering at build time.
 
 // it means the first calculate the something on server(which request made by client), second render out the page ,third deliver at to user on the page, rather than just sending the entire site to the user.
 

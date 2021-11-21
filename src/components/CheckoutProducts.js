@@ -1,4 +1,4 @@
-import { MinusSmIcon, PlusIcon, StarIcon } from "@heroicons/react/solid";
+import {StarIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";

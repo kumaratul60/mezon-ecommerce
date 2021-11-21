@@ -18,7 +18,7 @@ const endPointSecret = process.env.STRIPE_SIGNING_SECRET;
 
 // fulfillOrder is a async function which is take session as argument
 const fulfillOrder = async (session) => {
-  // console.log("Fulfilling order", session);
+  console.log("Fulfilling order", session);
 
   return app
     .firestore()
@@ -28,13 +28,14 @@ const fulfillOrder = async (session) => {
     .doc(session.id)
     .set({
       amount: session.amount_total / 100, // x/100 bcoz we use subcurrency so we get back to regular reading currency when we pushing database
+      // set => it means pushing some data to the db
 
       amount_shipping: session.total_details.amount_shipping / 100,
       images: JSON.parse(session.metadata.images),
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
     })
     .then(() => {
-      console.log(`Success: Order ${session.id} had been added to the DB`);
+      console.log(`Success 🚀: Order ${session.id} had been added to the DB`);
     });
 };
 
@@ -45,7 +46,7 @@ export default async (req, res) => {
 
     //  raw body       ^^^^^^^^^^^^^^
     const sig = req.headers["stripe-signature"];
-    console.log(sig);
+    console.log("sig", sig);
 
     let event;
 
@@ -66,6 +67,7 @@ export default async (req, res) => {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+      console.log("session-webhook", session);
 
       // Fulfill the order...
       return fulfillOrder(session)

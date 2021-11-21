@@ -1,16 +1,21 @@
+//  this is sripe backend which is load on click
+
+// REMEMBER: Any thing under the API folder is for backend
+
 // creating API end point
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
   const { items, email } = req.body;
 
-  //   console.log(items);
-  //   console.log(email);
+  // console.log(items);
+  // console.log(email);
 
   //  items.map(item => ({xyz,pqr})) ==> that is implicit return
 
   // in stripe they take every curruncy as sub currency which means that if we talk about pounds it can be pannies or if we talk about doller it can be sense.   100 pannies = 1 Pounds
 
+  // transformedItems => map to stripe item
   const transformedItems = items.map((item) => ({
     description: item.description,
     quantity: 1,
@@ -29,8 +34,11 @@ export default async (req, res) => {
     //   payment method is array type because it can be used as multiple payment methods
     payment_method_types: ["card"],
 
-    shipping_rates: ["shr_1J7FLaSIZXyOYAkIH5JkVaeM"],
+    // for allow delivery
+
+    shipping_rates: ["shr_1Jxu62SFiU8sivC2jmPqsv7x"],
     shipping_address_collection: {
+      //   param: 'shipping_address_collection[allowed_countries][4]',
       allowed_countries: ["CA", "US", "IN", "GB"],
     },
 
@@ -46,4 +54,6 @@ export default async (req, res) => {
     },
   });
   res.status(200).json({ id: session.id });
+
+  console.log("session", session);
 };
