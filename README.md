@@ -19,6 +19,8 @@ Users can choose products and add/remove items in the basket
 
 <img target="_blank" src="6.png">
 
+<img target="_blank" src="success.png">
+
 ![Alt Text](7.png?raw=true "Title")
 
 
